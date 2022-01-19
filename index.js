@@ -9,6 +9,14 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+const {
+  createTalker,
+  validateTalk,
+  validateAuth,
+  validateName,
+  validateAge } = require('./middlewares/talker');
+const { readTalkersFile } = require('./utils/readTalkersFile');
+
 // https://stackoverflow.com/questions/46155/whats-the-best-way-to-validate-an-email-address-in-javascript
 const reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 // https://stackoverflow.com/questions/3166738/minimum-6-characters-regex-expression/3167082
@@ -23,24 +31,24 @@ app.listen(PORT, () => {
   console.log('Online');
 });
 
-// leitura arquivo talker.json
-const fs = require('fs').promises;
+// // leitura arquivo talker.json
+// const fs = require('fs').promises;
 
-const getTalkers = async () => {
-  const fileContent = await fs.readFile('./talker.json', 'utf-8');
-  const talkers = JSON.parse(fileContent);
-  return talkers;
-};
+// const readTalkersFile = async () => {
+//   const fileContent = await fs.readFile('./talker.json', 'utf-8');
+//   const talkers = JSON.parse(fileContent);
+//   return talkers;
+// };
 
 // endpoints get
 app.get('/talker', async (req, res) => {
-  const talkers = await getTalkers();
+  const talkers = await readTalkersFile();
   if (talkers.length === 0) res.status(HTTP_OK_STATUS).json([]);
   else res.status(HTTP_OK_STATUS).json(talkers);
 });
 
 app.get('/talker/:id', async (req, res) => {
-  const talkers = await getTalkers();
+  const talkers = await readTalkersFile();
   const { id } = req.params;
   const talker = talkers.find((t) => t.id === parseInt(id, 0));
   if (!talker) res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
@@ -66,7 +74,9 @@ const validateLogin = (email, password) => {
 };
 
 app.post('/login', async (req, res) => { 
-  const { email, password } = req.body;
+  const { email, password } = await req.body;
   const validated = validateLogin(email, password);
   res.status(validated.status).json(validated.json);
 });
+
+app.post('/talker', validateAuth, validateName, validateAge, validateTalk, createTalker);

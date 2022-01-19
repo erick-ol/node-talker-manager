@@ -1,3 +1,4 @@
+const CREATED_STATUS = 201;
 const fs = require('fs').promises;
 const { readTalkersFile } = require('../../utils/readTalkersFile');
 
@@ -18,7 +19,7 @@ const createTalker = async (req, res) => {
 
   await fs.writeFile('./talker.json', JSON.stringify(talkers));
 
-  return res.status(201).json(newTalker);
+  return res.status(CREATED_STATUS).json(newTalker);
 };
 
 module.exports = { createTalker };

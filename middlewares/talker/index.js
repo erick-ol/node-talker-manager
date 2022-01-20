@@ -3,6 +3,7 @@ const { deleteTalker } = require('./deleteTalker');
 const { editTalker } = require('./editTalker');
 const { getAllTalkers } = require('./getAllTalkers');
 const { getTalkerById } = require('./getTalkerById');
+const { searchTalker } = require('./searchTalker');
 const { validateAge } = require('./validateAge');
 const { validateAuth } = require('./validateAuth');
 const { validateName } = require('./validateName');
@@ -14,6 +15,7 @@ module.exports = {
   editTalker,
   getAllTalkers,
   getTalkerById,
+  searchTalker,
   validateAge,
   validateAuth,
   validateName,

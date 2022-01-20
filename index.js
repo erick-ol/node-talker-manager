@@ -13,6 +13,7 @@ const {
   deleteTalker,
   editTalker,
   getAllTalkers,
+  searchTalker,
   validateAge,
   validateAuth,
   validateName,
@@ -31,13 +32,12 @@ app.listen(PORT, () => {
 });
 
 // endpoints get
+app.get('/talker/search', validateAuth, searchTalker);
 app.get('/talker', getAllTalkers);
-
 app.get('/talker/:id', getTalkerById);
 
 // endpoints post
 app.post('/login', validateEmail, validatePasswd, createToken);
-
 app.post('/talker', validateAuth, validateName, validateAge, validateTalk, createTalker);
 
 // endpoint put

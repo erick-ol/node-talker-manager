@@ -10,6 +10,7 @@ const PORT = '3000';
 // middlewares and utils requires
 const {
   createTalker,
+  deleteTalker,
   editTalker,
   getAllTalkers,
   validateAge,
@@ -41,3 +42,6 @@ app.post('/talker', validateAuth, validateName, validateAge, validateTalk, creat
 
 // endpoint put
 app.put('/talker/:id', validateAuth, validateName, validateAge, validateTalk, editTalker);
+
+// endpoint delete
+app.delete('/talker/:id', validateAuth, deleteTalker);

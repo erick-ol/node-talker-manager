@@ -3,8 +3,9 @@ const BAD_REQUEST_STATUS = 400;
 const reDate = /(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/]\d{4}$/;
 const reRange = /^[1-5]$/;
 
+// condição inspirada no repositório do Pedro Trasfereti
 const talkCondition = (
-  (talk) => !talk || !talk.watchedAt || !talk.rate || talk.watchedAt === '' || talk.rate === ''
+  (talk) => !talk || !talk.watchedAt || talk.rate === undefined
 );
 
 const validateTalk = async (req, res, next) => {
@@ -23,7 +24,7 @@ const validateTalk = async (req, res, next) => {
   if (!reRange.test(talk.rate)) {
     return res.status(BAD_REQUEST_STATUS).json({
       message: 'O campo "rate" deve ser um inteiro de 1 à 5' });
-  }
+    }
 
   next();
 };

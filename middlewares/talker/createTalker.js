@@ -1,6 +1,5 @@
 const CREATED_STATUS = 201;
-const fs = require('fs').promises;
-const { readTalkersFile } = require('../../utils/readTalkersFile');
+const { readTalkersFile, updateTalkersFile } = require('../../utils');
 
 const createTalker = async (req, res) => {
   const { name, age, talk } = await req.body;
@@ -17,7 +16,7 @@ const createTalker = async (req, res) => {
 
   talkers.push(newTalker);
 
-  await fs.writeFile('./talker.json', JSON.stringify(talkers));
+  updateTalkersFile(talkers);
 
   return res.status(CREATED_STATUS).json(newTalker);
 };
